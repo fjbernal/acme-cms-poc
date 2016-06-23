@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="my:contentModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+    <!-- Optional meta-data about the model -->
+    <description>Document Model for Repo Extension X</description>
+    <author>My Name</author>
+    <version>1.0</version>
+
+    <imports>
+        <!-- Import Alfresco Dictionary Definitions -->
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+        <!-- Import Alfresco Content Domain Model Definitions -->
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+        <!-- Import Alfresco System Model Definitions -->
+        <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys"/>
+    </imports>
+
+    <!-- Custom namespace for your domain -->
+    <namespaces>
+        <namespace uri="http://www.mycompany.com/model/content/1.0" prefix="my"/>
+    </namespaces>
+    
+    <constraints>
+		<constraint name="my:productListConstraint" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value>Foobar Widget</value>
+					<value>Flux Capacitor</value>
+					<value>Big Bold App</value>
+				</list>
+			</parameter>
+		</constraint>
+	</constraints>
+    
+    <types>
+    <!--  Enterprise-wide generic document type -->
+        <!-- Enterprise-wide generic document type -->
+	    <type name="my:doc">
+	    	<title>MyCompany Generic Document</title>
+	    	<parent>cm:content</parent>
+	    	<associations>
+	    		<association name="my:relatedDocuments">
+	    			<title>Related Documents</title>
+	    			<source>
+	    				<mandatory>false</mandatory>
+	    				<many>true</many>
+	    			</source>
+	    			<target>
+	    				<class>my:doc</class>
+	    				<mandatory>false</mandatory>
+	    				<many>true</many>
+	    			</target>
+	    		</association>
+	    	</associations>
+	    </type>    
+        <type name="my:marketingDoc">
+            <title>MyCompany Marketing Document</title>
+            <parent>my:doc</parent>
+            <properties>
+				<property name="my:product">
+					<type>d:text</type>
+					<multiple>true</multiple>
+					<constraints>
+						<constraint ref="my:productListConstraint" />
+					</constraints>
+				</property>
+			</properties>   
+        </type>    
+        <type name="my:whitepaper">
+            <title>MyCompany Whitepaper</title>
+            <parent>my:marketingDoc</parent>    
+        </type>         
+   </types>
+
+    <!-- ===============================================================================================================
+        Constraints, Types, and Aspects go here...
+        -->
+        
+   <aspects>
+	    <aspect name="my:publishToWeb">
+	    	<title>MyCompany Website</title>
+	    	<properties>
+	    		<property name="my:publishedDate">
+	    			<type>d:date</type>
+	    		</property>
+	    		<property name="my:isActive">
+	    			<type>d:boolean</type>
+	    			<default>false</default>
+	    		</property>
+	    	</properties>
+	    </aspect>
+	    <aspect name="my:clientRelated">
+	    	<title>MyCompany Client Metadata</title>
+	    	<properties>
+	    		<property name="my:clientName">
+	    			<type>d:text</type>
+	    			<mandatory>true</mandatory>
+	    		</property>
+	    		<property name="my:projectName">
+	    			<type>d:text</type>
+	    			<mandatory>false</mandatory>
+	    		</property>
+	    	</properties>
+	    </aspect>
+	</aspects>
+
+</model>

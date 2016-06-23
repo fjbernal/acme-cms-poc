@@ -1,0 +1,115 @@
+<!-- Share configuration related to this particular Share module extension, such as:
+     - Doclib action config
+     - Form config
+     - Aspect and Type config
+
+    Note. Any configuration related to the whole Share.war webapp
+           (i.e. not specific to this share extension) should be
+            placed in the environment specific config:
+             alfresco-allinone/share/src/main/resources/alfresco/web-extension/share-config-custom.xml file
+     -->
+<alfresco-config>
+
+	<!-- Form customization for whitepaper -->
+
+	<config evaluator="model-type" condition="my:whitepaper">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="cm:name" />
+					<show id="my:product" />
+					<show id="cm:title" force="true" />
+					<show id="cm:description" force="true" />
+				</field-visibility>
+			</form>
+		</forms>
+	</config>
+
+
+	<config evaluator="node-type" condition="my:whitepaper">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="cm:name" />
+					<show id="my:product" />
+					<show id="cm:title" force="true" />
+					<show id="cm:description" force="true" />
+				</field-visibility>
+			</form>
+		</forms>
+	</config>
+
+	<!-- End of Form customization for whitepaper -->
+	
+	<config evaluator="string-compare" condition="DocumentLibrary">
+    	<!--
+           Used by "Manage Rules" -> "Specialise type" action.
+        
+           If a type has been specified without a title element in the content model,
+           or you need to support multiple languages,
+           then an i18n file is needed on the Repo AMP/JAR extension side for the type to
+           be visible when creating rules:
+        
+              custom_customModel.type.custom_mytype.title=My SubType
+        
+           Used by the "Change Type" action.
+        
+           For the type to have a localised label add relevant i18n string(s) in a Share AMP/JAR extension:
+        
+              type.custom_mytype=My SubType
+        
+           Define valid subtypes using the following example:
+        
+              <type name="cm:content">
+               <subtype name="custom:mytype" />
+              </type>
+            -->
+        <types>
+            <type name="cm:content">
+                <!-- Custom sub-type added for whitepapers -->
+                <subtype name="my:whitepaper" />
+            </type>
+
+            <type name="cm:folder">
+            </type>
+
+            <type name="trx:transferTarget">
+                <subtype name="trx:fileTransferTarget" />
+            </type>
+        </types>
+        
+        <!--
+                   Used by "Manage Rules" -> "Add aspect" action.
+               
+                   If an aspect has been specified without a title element in the content model,
+                   or you need to support multiple languages,
+                   then an i18n file is needed on the Repo AMP/JAR extension side for the aspect to
+                   be visible when creating rules:
+               
+                      custom_customModel.aspect.custom_myaspect.title=My Aspect
+               
+                   Used by the "Manage Aspects" action.
+               
+                   For the aspect to have a localised label add relevant i18n string(s) in a Share AMP/JAR extension:
+               
+                      aspect.custom_myaspect=My Aspect
+                -->          
+         <aspects>
+            <!-- Aspects that a user can see -->
+            <visible>
+                <!-- custom aspects -->
+                <aspect name="sc:webable" />
+                <aspect name="sc:productRelated" />
+            </visible>
+
+            <!-- Aspects that a user can add. Same as "visible" if left empty -->
+            <addable>
+            </addable>
+
+            <!-- Aspects that a user can remove. Same as "visible" if left empty -->
+            <removeable>
+            </removeable>
+        </aspects>
+   </config>
+
+</alfresco-config>
